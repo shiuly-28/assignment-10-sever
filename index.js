@@ -55,6 +55,13 @@ async function run() {
             res.send(result);
         })
 
+        app.delete('/roommate/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await roommateCollection.deleteOne(query);
+            res.send(result)
+        })
+
         await client.db("admin").command({ ping: 1 });
         console.log(" Connected to MongoDB!");
     } catch (err) {
