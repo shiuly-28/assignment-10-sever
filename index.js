@@ -26,20 +26,27 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         await client.connect();
-        
+
         const roommateCollection = client.db('roommateDB').collection('roommate')
 
         app.get('/roommate', async (req, res) => {
             const result = await roommateCollection.find().toArray()
             res.send(result);
         })
-        
+
         app.get('/roommate/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const result = await roommateCollection.findOne(query);
             res.send(result);
-          })
+        })
+
+        app.get('/roommate/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email };
+            const result = await roommateCollection.find(query).toArray();
+            res.send(result);
+        });
 
         app.post('/roommate', async (req, res) => {
             const newRoommate = req.body;
@@ -55,7 +62,7 @@ async function run() {
     }
 }
 run();
-    
+
 
 
 app.get('/', (req, res) => {
