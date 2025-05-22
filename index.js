@@ -77,7 +77,7 @@ async function run() {
         
         app.patch('/roommate/:id', async (req, res) => {
             const id = req.params.id;
-            const { isLike } = req.body;
+            // const { isLike } = req.body;
             const filter = { _id: new ObjectId(id) };
             const updateLike = {
                 $inc: { likes: 1 }
@@ -85,6 +85,8 @@ async function run() {
             const result = await roommateCollection.updateOne(filter, updateLike);
             res.send(result);
         });
+
+        add.pad(roommateCollection)
 
         await client.db("admin").command({ ping: 1 });
         console.log(" Connected to MongoDB!");
